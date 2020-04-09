@@ -2,7 +2,7 @@
 aliases: [ARIMA Seasonal Modeling]
 title: Time Series Modeling for Atmospheric CO2 Concentration(ppm), 1958–2019
 authors: [Peyman]
-summary: Use the Brickr package to use lego toys version of your selfie
+summary: Use Forecast Package for Seasonal ARIMA Modeling
 date: '2020-04-09'
 categories:
   - readr
