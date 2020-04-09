@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects | Peyman Kor</title>
+    <link>/project/</link>
+      <atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    <description>Projects</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 09 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>Projects</title>
+      <link>/project/</link>
+    </image>
+    
+    <item>
+      <title>Time Series Modeling for Atmospheric CO2 Concentration(ppm), 1958–2019</title>
+      <link>/project/timeseries/</link>
+      <pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>/project/timeseries/</guid>
+      <description>
+
+
+&lt;div id=&#34;question-3.1-plotting&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Question 3.1 Plotting&lt;/h2&gt;
+&lt;p&gt;The data set is divided to two sets. From the beginning until the beginning of the 2018 is considered as the &lt;strong&gt;Train&lt;/strong&gt; Data set and from Jan 2018 beyond is considered the &lt;strong&gt;Test&lt;/strong&gt; data-set.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(kableExtra)
+library(tidyverse)
+library(forecast)
+library(lubridate)
+library(car)
+library(scales)
+library(patchwork)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;data-import&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data Import:&lt;/h3&gt;
+&lt;p&gt;The data will of mounthly Co2 Concentration in (Part Per Million) over the period of the “1960/3-2019/12” measured at Mauna Loa Observatory, Hawaii. The link for the this data available at:&lt;/p&gt;
+&lt;p&gt;[&lt;a href=&#34;ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt&#34; class=&#34;uri&#34;&gt;ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt&lt;/a&gt;]&lt;/p&gt;
+&lt;p&gt;Now, to read this data in the R, couples of points must be considered:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The data has the comments, which is not our interest of analysis. Therefore, in import code we show that with &lt;em&gt;comment.char = ‘#’ &lt;/em&gt;,&lt;/li&gt;
+&lt;li&gt;The data has 7 columns yet some of them like the Year and Month label have not been written in the data, so while importing we assing the folloowing column names:&lt;/li&gt;
+&lt;li&gt;The columns wwere seperate using the white space, therfore the sep = ’’ will be added to the code.&lt;/li&gt;
+&lt;li&gt;Year,Month,Time,Co2_con,Interpolated,Trend,Days&lt;/li&gt;
+&lt;li&gt;Since we are including the column names, the header = F could be included.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- read.delim(&amp;#39;ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt&amp;#39;, comment.char = &amp;#39;#&amp;#39;, header = F, sep = &amp;#39;&amp;#39;, col.names = c(&amp;#39;Year&amp;#39;,&amp;#39;Month&amp;#39;,&amp;#39;Time&amp;#39;,&amp;#39;Co2_Concentration&amp;#39;,&amp;#39;Interpolated&amp;#39;,&amp;#39;Trend&amp;#39;,&amp;#39;Days&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;make-data-tidy&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Make Data Tidy:&lt;/h4&gt;
+&lt;p&gt;Look on any NA values:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;which(is.na(data))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# integer(0)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Good, we have the complete measured data! However when read the data we see some -99.99 values! - be careful, as was mentioned in the comments these values are when the measurement were not avilable - so for these points (which are 7 out of 741 measueremnets), we use the &lt;em&gt;Interpolated&lt;/em&gt; colmns:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_cc &amp;lt;- data %&amp;gt;% 
+    mutate(
+        Co2_Con = case_when(
+            Co2_Concentration == -99.99 ~ Interpolated,
+            TRUE ~ Co2_Concentration
+        )
+    )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s jhave look on column types:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sapply(data_cc, class)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#              Year             Month              Time Co2_Concentration 
+#         &amp;quot;integer&amp;quot;         &amp;quot;integer&amp;quot;         &amp;quot;numeric&amp;quot;         &amp;quot;numeric&amp;quot; 
+#      Interpolated             Trend              Days           Co2_Con 
+#         &amp;quot;numeric&amp;quot;         &amp;quot;numeric&amp;quot;         &amp;quot;integer&amp;quot;         &amp;quot;numeric&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see that column types are in approriate format, yet we can add the new column named &lt;em&gt;Date&lt;/em&gt; which give the date of measurement in the standard time sery format:&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-transform&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data Transform&lt;/h3&gt;
+&lt;p&gt;Here &lt;em&gt;Lubridate&lt;/em&gt; package provides a easy method to convert our &lt;em&gt;Year&lt;/em&gt; and &lt;em&gt;Month&lt;/em&gt; column to date:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_cc$Date &amp;lt;- ymd(paste0(data$Year, &amp;quot; &amp;quot;, data$Month, &amp;quot; &amp;quot;, &amp;quot;15&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Also, we can see in the analysis we want to do, we do not the following columsn, so we could select the requered column needed our analys:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_cc_sel &amp;lt;- data_cc %&amp;gt;% 
+    select(Year, Month, Date, Co2_Con )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Also, we need to have portion of our data, to test the model we develop based on the training data- So, Here, we consider the data for &lt;em&gt;2017&lt;/em&gt;, &lt;em&gt;2018&lt;/em&gt; and &lt;em&gt;2019&lt;/em&gt; as the test data, the rest are the training data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_cc_sel_test &amp;lt;- data_cc_sel %&amp;gt;% 
+    filter(Year &amp;gt; 2016)
+data_cc_sel_train &amp;lt;- data_cc_sel %&amp;gt;% 
+    filter(Year &amp;lt;= 2016)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-visulization&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data Visulization&lt;/h3&gt;
+&lt;p&gt;Now, let’s visulize the data first,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data_cc_sel,aes(Date, Co2_Con)) +
+    geom_line(color=&amp;#39;blue&amp;#39;) +
+    xlab(&amp;quot;Year, Month&amp;quot;) +
+    scale_x_date(date_labels = &amp;quot;%Y-%m&amp;quot;, date_breaks = &amp;quot;5 year&amp;quot;) +
+    theme(axis.text.x = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&amp;quot;CO2 Concentration (ppm)&amp;quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 10, hjust = 1),axis.title.y = element_text(size = 10))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;p1 &amp;lt;- ggplot(data_cc_sel,aes(Date, Co2_Con)) +
+    geom_line(color=&amp;#39;blue&amp;#39;) +
+    xlab(&amp;quot;Year, Month&amp;quot;) +
+    scale_x_date(date_labels = &amp;quot;%Y-%m&amp;quot;, date_breaks = &amp;quot;5 year&amp;quot;) +
+    theme(axis.text.x = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&amp;quot;CO2 Concentration (ppm)&amp;quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 10, hjust = 1),axis.title.y = element_text(size = 8))
+
+
+p2 &amp;lt;- ggplot(data_cc_sel_train,aes(Date, Co2_Con)) +
+    geom_line(color=&amp;#39;blue&amp;#39;) +
+    xlab(&amp;quot;Year, Month&amp;quot;) +
+    scale_x_date(date_labels = &amp;quot;%Y-%m&amp;quot;, date_breaks = &amp;quot;5 year&amp;quot;) +
+    theme(axis.text.x = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&amp;quot;CO2 Concentration (ppm)&amp;quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 10, hjust = 1), axis.title.y = element_text(size = 8))
+
+
+p3 &amp;lt;- ggplot(data_cc_sel_test,aes(Date, Co2_Con)) +
+    geom_line(color=&amp;#39;blue&amp;#39;) +
+    xlab(&amp;quot;Year, Month&amp;quot;) +
+    scale_x_date(date_labels = &amp;quot;%Y-%m&amp;quot;, date_breaks = &amp;quot;1 year&amp;quot;) +
+    theme(axis.text.x = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&amp;quot;CO2 Concentration (ppm)&amp;quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 10, hjust = 1), axis.title.y = element_text(size = 8))
+
+
+(p2 | p3 ) /
+      p1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;modeling&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Modeling:&lt;/h2&gt;
+&lt;p&gt;In time series analysis, first things we need to know about the trends are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Is the data staionary?&lt;/li&gt;
+&lt;li&gt;Answer: Not, we see the clear trend in in the plot, so the co2 concentration depends on time. (sig of non -stationary)&lt;/li&gt;
+&lt;li&gt;Is there any seasonality in data?&lt;/li&gt;
+&lt;li&gt;Answer: Yes, we can difintely see the seasonality in the data.
+Now, knowing the the non-statinary and seasonality of the data, it suggest to use theseasons differencing to model the data. To answer,&lt;/li&gt;
+&lt;li&gt;How is Autocorelation function and Partial Auto corellation?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here is the plot of ACF and PACF from the &lt;em&gt;forecast&lt;/em&gt; package:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Co2_train &amp;lt;- ts(data_cc_sel_train$Co2_Con, start = c(1958,3), frequency = 12)
+Co2_train %&amp;gt;% ggtsdisplay()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Clearly the the data shows the differencing, now we make the ordinary diffrencing of the with the lag of 12:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Co2_train %&amp;gt;% diff(1,lag=12) %&amp;gt;% ggtsdisplay()
+Co2_train %&amp;gt;% diff(lag=12) %&amp;gt;% diff() %&amp;gt;% ggtsdisplay()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now, it is better, we subtanitally removed the trend and as well the ACF is declining until the lag =12. At this stage, we can go for another diffrencing , but it is choice and there is no clear distinction. We start the model with the &lt;span class=&#34;math inline&#34;&gt;\(d=D = 1\)&lt;/span&gt; in the $ARIMA(p,d,q)(P,D,Q)[12] using the forecast package.&lt;/p&gt;
+&lt;p&gt;Now, we must have some starting parameters for p,q,D,Q . So, let’s look on the above ACF and PACF:
+* In the seasonal lags, there is one significant spike in the ACF, suggesting a possible MA(1) term. so, the starting point is &lt;span class=&#34;math inline&#34;&gt;\(Q\)&lt;/span&gt; = 1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In the plots of the non-seasonal differenced data, there are three spikes at ACF plot, this may be suggestive of a seasonal MA(3) term, &lt;span class=&#34;math inline&#34;&gt;\(q=3\)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cosequently, we start withe the &lt;span class=&#34;math inline&#34;&gt;\(ARIMA(0,1,3)(3,1,1)[12]\)&lt;/span&gt; and make variations in the AR and MA terms. Here, while keeping the order constant (d,D), we use the AICs values to judge the quelity of models. (minimize the AICs)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(fitnew_1 &amp;lt;- Arima(Co2_train, order=c(0,1,3),seasonal=list(order=c(3,1,1),period=12),
+                 include.drift = T, lambda = &amp;quot;auto&amp;quot;
+              ))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# Series: Co2_train 
+# ARIMA(0,1,3)(3,1,1)[12] 
+# Box Cox transformation: lambda= 0.7524786 
+# 
+# Coefficients:
+#           ma1      ma2      ma3    sar1     sar2    sar3     sma1
+#       -0.3653  -0.0298  -0.0744  0.0077  -0.0234  0.0043  -0.8749
+# s.e.   0.0389   0.0415   0.0394  0.0460   0.0443  0.0442   0.0253
+# 
+# sigma^2 estimated as 0.005423:  log likelihood=831.19
+# AIC=-1646.38   AICc=-1646.16   BIC=-1610.05&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;checkresiduals(fitnew_1, lag=36)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 
+#   Ljung-Box test
+# 
+# data:  Residuals from ARIMA(0,1,3)(3,1,1)[12]
+# Q* = 29.875, df = 29, p-value = 0.4203
+# 
+# Model df: 7.   Total lags used: 36&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;aicsvalue &amp;lt;- function(p,q,P,Q) {
+  fit &amp;lt;- Arima(Co2_train, order=c(p,1,q),seasonal=list(order=c(P,1,Q),period=12),
+                  lambda = &amp;quot;auto&amp;quot;
+              )
+  return(fit$aicc)
+}
+
+model_eva &amp;lt;- data.frame(Model_name=c(&amp;quot;ARIMA(0,1,3)(3,1,1)[12]&amp;quot;,&amp;quot;ARIMA(0,1,1)(3,1,1)[12]&amp;quot;,&amp;quot;ARIMA(1,1,0)(1,1,0)[12]&amp;quot;,
+                                     &amp;quot;ARIMA(1,1,2)(1,1,0)[12]&amp;quot;,&amp;quot;ARIMA(1,1,3)(0,1,1)[12]&amp;quot;,&amp;quot;ARIMA(1,1,1)(1,1,0)[12]&amp;quot;,
+                                     &amp;quot;ARIMA(1,1,1)(1,1,0)[12]&amp;quot;,&amp;quot;ARIMA(1,1,0)(1,1,1)[12]&amp;quot;,&amp;quot;ARIMA(1,1,1)(0,1,1)[12]&amp;quot; ), AICc=c(aicsvalue(0,3,3,1),aicsvalue(0,1,3,1),aicsvalue(1,0,1,0),                                                            aicsvalue(1,2,1,0),aicsvalue(1,3,0,1),aicsvalue(1,1,1,0),                                                           aicsvalue(1,1,1,0),aicsvalue(1,0,1,1), aicsvalue(1,1,0,1)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Based on the above abalysis, the &lt;span class=&#34;math inline&#34;&gt;\(ARIMA(1,1,1)(0,1,1)[12]\)&lt;/span&gt; will be selected, but we need to check the residual to avoid any over and under fitting as well, to see the Ljung-Box test whether the the residuals resembles white noise or not.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(fit_minaicc &amp;lt;- Arima(Co2_train, order=c(1,1,1),seasonal=list(order=c(0,1,1),period=12),
+                  lambda = &amp;quot;auto&amp;quot;
+              ))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# Series: Co2_train 
+# ARIMA(1,1,1)(0,1,1)[12] 
+# Box Cox transformation: lambda= 0.7524786 
+# 
+# Coefficients:
+#          ar1      ma1     sma1
+#       0.2026  -0.5644  -0.8754
+# s.e.  0.0935   0.0790   0.0196
+# 
+# sigma^2 estimated as 0.005414:  log likelihood=829.75
+# AIC=-1651.5   AICc=-1651.44   BIC=-1633.34&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;checkresiduals(fit_minaicc, lag=36)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 
+#   Ljung-Box test
+# 
+# data:  Residuals from ARIMA(1,1,1)(0,1,1)[12]
+# Q* = 34.163, df = 33, p-value = 0.4116
+# 
+# Model df: 3.   Total lags used: 36&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fit_minaicc$aicc&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] -1651.442&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we can see the residualy sufficiently resembles the white noise also the p value high and the model pass the test for Ljong-Box test. (However it must be mentioned the one of the ACF are just reach the boundary in blue line, yet, I do not think it will affect the prediction subtantially - sometime it is difffuclt to have model pass al test.)&lt;/p&gt;
+&lt;p&gt;However, still this is not the end of model selection. Here, we check the perfomance of the model on the &lt;em&gt;Test&lt;/em&gt; data. We ssek to find the model which minime the RMSE.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Co2_test &amp;lt;- ts(data_cc_sel_test$Co2_Con, start = c(2017,1), frequency = 12)
+mm &amp;lt;- accuracy(forecast(fit_minaicc,h=35)$mean, Co2_test )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This section compares the &lt;em&gt;RMSE&lt;/em&gt; values for the 9 models provided in the previous section.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rmse_eva &amp;lt;- function(p,d,q,P,D,Q) {
+  fit &amp;lt;- Arima(Co2_train, order=c(p,d,q),seasonal=list(order=c(P,D,Q),period=12),
+                  lambda = &amp;quot;auto&amp;quot;
+              )
+  mm &amp;lt;- accuracy(forecast(fit,h=35)$mean, Co2_test)
+  return(mm[2])
+
+}
+
+rmse_eva &amp;lt;- data.frame(Model_name=c(
+&amp;quot;ARIMA(0,1,3)(3,1,1)[12]&amp;quot;,&amp;quot;ARIMA(0,1,1)(3,1,1)[12]&amp;quot;,&amp;quot;ARIMA(1,1,0)(1,1,0)[12]&amp;quot;,
+&amp;quot;ARIMA(1,1,2)(1,1,0)[12]&amp;quot;,&amp;quot;ARIMA(1,1,3)(0,1,1)[12]&amp;quot;,&amp;quot;ARIMA(1,1,1)(1,1,0)[12]&amp;quot;,
+&amp;quot;ARIMA(1,1,1)(1,1,0)[12]&amp;quot;,&amp;quot;ARIMA(1,1,0)(1,1,1)[12]&amp;quot;,&amp;quot;ARIMA(1,1,1)(0,1,1)[12]&amp;quot;
+ ), RMSE=c(                        
+rmse_eva(0,1,3,3,1,1),rmse_eva(0,1,1,3,1,1),rmse_eva(1,1,0,1,1,0),                                                  rmse_eva(1,1,2,1,1,0),rmse_eva(1,1,3,0,1,1),rmse_eva(1,1,1,1,1,0),                                                  rmse_eva(1,1,1,1,1,0),rmse_eva(1,1,0,1,1,1),rmse_eva(1,1,1,0,1,1)))                                                  &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The results show that the the model &lt;span class=&#34;math inline&#34;&gt;\(ARIMA(1,1,1)(0,1,1)[12]\)&lt;/span&gt; has not the minimum &lt;span class=&#34;math inline&#34;&gt;\(RMSE\)&lt;/span&gt; values, yet it was very close to the minimum, however it was minimum in the &lt;span class=&#34;math inline&#34;&gt;\(AICc\)&lt;/span&gt; values. Atbthe end, knowing that the model residuals foloow the white noise, the &lt;span class=&#34;math inline&#34;&gt;\(RMSE\)&lt;/span&gt; is the final criteria to the selection since it performs on the data the model has not seen in the training process.
+Using the forecast package, the figures shows the model prediction until the 2050, given the confidence intervals.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Co2_train %&amp;gt;%
+  Arima(order=c(1,1,1),seasonal=list(order=c(0,1,1),period=12),
+                lambda = &amp;quot;auto&amp;quot;
+              ) %&amp;gt;%
+  forecast(h=400) %&amp;gt;%
+  autoplot() +
+    ylab(&amp;quot;H02 sales (million scripts)&amp;quot;) + xlab(&amp;quot;Year&amp;quot;) +
+  autolayer(Co2_test)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s zoom in the model prediction and the test data to see the model perfomance visually:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prediction &amp;lt;- forecast(fit_minaicc,h=39) 
+data_cc_sel_test$prediction &amp;lt;- prediction$mean
+data_test_pre_tidy &amp;lt;- gather(data_cc_sel_test, &amp;quot;type&amp;quot;, &amp;quot;Co2&amp;quot;, -Year,-Month,-Date)
+ggplot(data_test_pre_tidy,aes(Date, Co2,color=type)) +
+    geom_line() +
+    xlab(&amp;quot;Year, Month&amp;quot;) +
+    scale_x_date(date_labels = &amp;quot;%Y-%m&amp;quot;, date_breaks = &amp;quot;1 year&amp;quot;) +
+    theme(axis.text.x = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&amp;quot;CO2 Concentration (ppm)&amp;quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 10, hjust = 1), axis.title.y = element_text(size = 8))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;672&#34; /&gt;
+Now, given the developed model the question we want to answer is:&lt;/p&gt;
+&lt;p&gt;Given the developed model, what is the chance reaching 460 ppm at 2050?
+To answer this question , we first need build the cumulative distribution of the Co2 Concentration at the 2050:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prediction1 &amp;lt;- forecast(fit_minaicc,h=396, level = c(80,90)) 
+p10 &amp;lt;- prediction1$upper[396,2]
+p50 &amp;lt;- prediction1$mean[396]
+sd_calc &amp;lt;- (p10-p50)/1.28
+
+Co2_con_2050 &amp;lt;- rnorm(10^6,p50,sd_calc)
+cdf_co2_con_2050 &amp;lt;- ecdf(Co2_con_2050)
+cdf_co2_con_2050_data &amp;lt;- data.frame(Co2_con_2050)
+ggplot(cdf_co2_con_2050_data, aes(Co2_con_2050)) + stat_ecdf(geom = &amp;quot;step&amp;quot;, color=&amp;#39;blue&amp;#39;) +
+  geom_vline(xintercept = 460, color=&amp;#39;red&amp;#39;) +
+  geom_hline(yintercept = cdf_co2_con_2050(460), color=&amp;#39;red&amp;#39;) +
+  theme(axis.text.x = element_text(face = &amp;quot;bold&amp;quot;, color = &amp;quot;#993333&amp;quot;, 
+                           size = 12, angle = 0, hjust = 1)) +
+  scale_x_continuous(breaks=c(400,425,450, 460,475,500,525, 550), limits = c(425,525)) +
+  scale_y_continuous(breaks=c(seq(0,1,0.1)), limits = c(0,1)) +
+  ylab(&amp;#39;Cumulative Distribution&amp;#39;) +
+  xlab(&amp;quot;Co2 Concentraion(ppm) at 2050&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/timeseries/index_files/figure-html/unnamed-chunk-22-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now, having the cumulative distribution, we could ask this question:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What is the probability the co2 concentraion (ppm) will stay below 460 level by 2050?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cdf_co2_con_2050(460)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 0.088908&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see, the answer is around 9%.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

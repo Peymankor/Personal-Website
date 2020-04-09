@@ -1,0 +1,241 @@
+  <link rel="stylesheet" href="COVID-19-IT.css" type="text/css" />
+
+<div id="TOC">
+<ul>
+<li><a href="#package-initialization">Package Initialization</a></li>
+<li><a href="#data-manipulation">Data Manipulation</a></li>
+<li><a href="#mutating-countries-population-to-the-data">Mutating Countries Population to the Data</a></li>
+<li><a href="#ggplot-theme">ggplot Theme</a></li>
+<li><a href="#plot-size-modification">Plot Size Modification</a></li>
+<li><a href="#visualization">Visualization:</a></li>
+</ul>
+</div>
+
+<div id="package-initialization" class="section level1">
+<h1>Package Initialization</h1>
+<p>Here, we use the the <em>Coronavirus</em> package developed and maintained with <em>Rami Krispin</em> at this link:</p>
+<p><a href="https://github.com/RamiKrispin/coronavirus" class="uri">https://github.com/RamiKrispin/coronavirus</a></p>
+<p>In addition, the <em>Tidyverse</em> package also was needed to manipulate and visualize the data.</p>
+<pre class="r"><code>#devtools::install_github(&quot;RamiKrispin/coronavirus&quot;)
+library(coronavirus)
+data(&quot;coronavirus&quot;)
+library(tidyverse)</code></pre>
+</div>
+<div id="data-manipulation" class="section level1">
+<h1>Data Manipulation</h1>
+<p>Here, the dplyr was used to select the following countries:
++ Italy
++ South Korea
++ France
++ Denmark
++ Norway
++ Sweden</p>
+<p>Then, we calculated the sum of the whole confirmed cases until the given time. In addition, the “row_number” was added to find the days after the Corona Cases has been reached above 25 cases.</p>
+<pre class="r"><code>eu_cases &lt;- coronavirus %&gt;% 
+  group_by(Country.Region, date, type) %&gt;% 
+  filter(type== &quot;confirmed&quot;) %&gt;% 
+  summarise(Cases=sum(cases)) %&gt;% 
+  filter(Country.Region== &quot;Italy&quot; | Country.Region== &quot;Korea, South&quot; | Country.Region== &quot;France&quot; | Country.Region== &quot;US&quot; | Country.Region== &quot;Denmark&quot; | 
+           Country.Region== &quot;Norway&quot; |
+           Country.Region==&quot;Sweden&quot; | Country.Region==&quot;China&quot; | Country.Region==&quot;United Kingdom&quot;| Country.Region==&quot;Germany&quot; | Country.Region==&quot;Iran&quot; | Country.Region==&quot;Spain&quot; ) %&gt;%
+  group_by(Country.Region, type) %&gt;% 
+  mutate(tot_confirmed = cumsum(Cases)) %&gt;%  
+  filter(type==&quot;confirmed&quot;) %&gt;%  
+  filter(tot_confirmed &gt; 25) %&gt;% 
+  mutate(id = row_number()) 
+  #filter(id &lt; 29)</code></pre>
+</div>
+<div id="mutating-countries-population-to-the-data" class="section level1">
+<h1>Mutating Countries Population to the Data</h1>
+<p>Here, the population of the countries were found and corresponding population was added to the column “pop” in the data set.</p>
+<pre class="r"><code>populations &lt;- c(       81.16, 82.79, 60.48, 51.47, 5.6, 5.36, 1386, 67, 10, 350,67,40 )
+names(populations) &lt;- c(&quot;Iran&quot;, &quot;Germany&quot;, &quot;Italy&quot;,  &quot;Korea, South&quot; 
+                        ,&quot;Denmark&quot;, &quot;Norway&quot; ,&quot;China&quot;, &quot;France&quot;, &quot;Sweden&quot;, &quot;US&quot;, &quot;United Kingdom&quot;, &quot;Spain&quot;)
+
+eu_cases$pop &lt;- rep(0,length(eu_cases$Country.Region))
+
+for (i in 1:length(eu_cases$Country.Region)) {
+  country &lt;- as.character(eu_cases$Country.Region[i])
+  eu_cases$pop[i] &lt;- populations[[country]]
+}  </code></pre>
+</div>
+<div id="ggplot-theme" class="section level1">
+<h1>ggplot Theme</h1>
+<p>Great thanks to Cedric Scherer (<a href="mailto:cedricphilippscherer@gmail.com" class="email">cedricphilippscherer@gmail.com</a>) for his beautiful theme!, this theme was used as the theme of the plotting in the bottom</p>
+<p>If you are using the windows, you must install the following the fonts Poppins and Roboto Mono and then:</p>
+</div>
+<div id="plot-size-modification" class="section level1">
+<h1>Plot Size Modification</h1>
+<p>Here, we use the custom edit in order to plot the ggplot output in the longer format than the default.</p>
+</div>
+<div id="visualization" class="section level1">
+<h1>Visualization:</h1>
+<pre class="r"><code>eu_cases &lt;- eu_cases %&gt;% mutate(tot_confirmed_per = tot_confirmed/pop)
+
+eu_cases$Country.Region = factor(eu_cases$Country.Region, 
+                              levels=c(&quot;Italy&quot;, &quot;Korea, South&quot;,&quot;Norway&quot;,&quot;France&quot; ,&quot;Denmark&quot; 
+                                        ,&quot;Sweden&quot;, &quot;US&quot;, &quot;China&quot;, &quot;United Kingdom&quot;, &quot;Iran&quot;, &quot;Germany&quot;,&quot;Spain&quot;))
+
+ggplot(eu_cases, aes(id, Cases, fill=Country.Region)) +
+    geom_bar(stat = &quot;identity&quot;) +
+    #geom_area(alpha = 0.75) +
+    facet_wrap(~ Country.Region, nrow = 4, scales = &quot;free_y&quot;) + 
+    theme(legend.position = &quot;none&quot;,
+          plot.title = element_text(size=12),
+          axis.title = element_text(size = 12, face = &quot;plain&quot;),
+          axis.title.x = element_text(size = 12, face = &quot;plain&quot;),
+          axis.title.y = element_text(size = 12, face = &quot;plain&quot;),
+          axis.text = element_text(family = &quot;Roboto Mono&quot;, size = 8.5),
+          axis.ticks.x = element_line(colour = &quot;transparent&quot;, size = 1),
+          axis.ticks.y = element_line(colour = &quot;transparent&quot;, size = 0.3),
+          panel.grid.major.y = element_line(colour = &quot;grey40&quot;, size = 0.3),
+          panel.grid.major.x = element_line(colour = &quot;grey40&quot;, size = 0.3),
+          panel.border = element_blank(),
+          strip.background = element_rect(color = &quot;transparent&quot;),
+          strip.text = element_text(size = 13, colour = &quot;white&quot;),
+          panel.spacing = unit(15, &quot;pt&quot;)) +
+  scale_x_continuous(limits = c(0, 50)) +
+    labs(x = &quot;Days after Totoal Confirmed Caes &gt; 25&quot;, y = &quot;Total Cases Per Million Inhabitants\n&quot;, 
+         title = &quot;Development of Total Confirmed Cases&quot;,
+         caption = &quot;\nVisualization by Peyman Kor  |  Data source: JHU &amp; WHO&quot;)</code></pre>
+<p><img src="analysis_3March_files/figure-html/unnamed-chunk-7-1.svg" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>library(httr)
+library(jsonlite)
+library(tidyverse)
+library(lubridate)
+library(readr)
+library(plyr)</code></pre>
+<p>Danish Data:</p>
+<pre class="r"><code>mytheme&lt;-theme(legend.position = &quot;none&quot;,
+          plot.title = element_text(size=12),
+          axis.title = element_text(size = 12, face = &quot;plain&quot;),
+          axis.title.x = element_text(size = 12, face = &quot;plain&quot;),
+          axis.title.y = element_text(size = 12, face = &quot;plain&quot;),
+          axis.text = element_text(family = &quot;Roboto Mono&quot;, size = 8.5),
+          axis.ticks.x = element_line(colour = &quot;transparent&quot;, size = 1),
+          axis.ticks.y = element_line(colour = &quot;transparent&quot;, size = 0.3),
+          panel.grid.major.y = element_line(colour = &quot;grey40&quot;, size = 0.3),
+          panel.grid.major.x = element_line(colour = &quot;grey40&quot;, size = 0.3),
+          panel.border = element_blank(),
+          strip.background = element_rect(color = &quot;transparent&quot;),
+          strip.text = element_text(size = 13, colour = &quot;white&quot;),
+          panel.spacing = unit(25, &quot;pt&quot;)) 
+
+
+
+mytheme_withlegend&lt;-theme(plot.title = element_text(size=12),
+          axis.title = element_text(size = 12, face = &quot;plain&quot;),
+          axis.title.x = element_text(size = 12, face = &quot;plain&quot;),
+          axis.title.y = element_text(size = 12, face = &quot;plain&quot;),
+          axis.text = element_text(family = &quot;Roboto Mono&quot;, size = 8.5),
+          axis.ticks.x = element_line(colour = &quot;transparent&quot;, size = 1),
+          axis.ticks.y = element_line(colour = &quot;transparent&quot;, size = 0.3),
+          panel.grid.major.y = element_line(colour = &quot;grey40&quot;, size = 0.3),
+          panel.grid.major.x = element_line(colour = &quot;grey40&quot;, size = 0.3),
+          panel.border = element_blank(),
+          strip.background = element_rect(color = &quot;transparent&quot;),
+          strip.text = element_text(size = 13, colour = &quot;white&quot;),
+          panel.spacing = unit(25, &quot;pt&quot;)) </code></pre>
+<pre class="r"><code>
+##########################
+path &lt;- &quot;https://api.covid19data.dk:443/ssi_cases&quot;
+req_ssi &lt;- GET(url=path)
+response_ssi &lt;- content(req_ssi, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+###################################
+
+######################################
+pathd &lt;- &quot;https://api.covid19data.dk:443/ssi_deaths_ts&quot;
+req_death &lt;- GET(url=pathd)
+response_death &lt;- content(req_death, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+
+df_death &lt;- fromJSON(response_death, flatten = TRUE) %&gt;% 
+  data.frame()   %&gt;% 
+  mutate(date=parse_datetime(date)) %&gt;% 
+  mutate(datemd=as.factor(format(date, &quot;%B %d&quot;))) %&gt;% 
+  select(datemd, deaths)
+
+######################################
+
+df_ssi &lt;- fromJSON(response_ssi, flatten = TRUE) %&gt;% 
+  data.frame()  %&gt;% 
+  mutate(date=parse_date_time(timestamp,&quot;Ymd HM&quot;, truncated = 4, tz=&quot;CET&quot;)) %&gt;%   
+  mutate(datemd=as.factor(format(date, &quot;%B %d&quot;))) %&gt;% 
+  select(datemd,cases) %&gt;% left_join(df_death) %&gt;% 
+  mutate(datemd=as.factor(datemd)) %&gt;% 
+  mutate(Cases_Per_Day = lead(cases)-cases) %&gt;%  
+  pivot_longer(-c(datemd), names_to = &quot;Type&quot;, values_to = &quot;Number&quot;) %&gt;% 
+  mutate(Type=as.factor(Type)) 
+    
+
+levels(df_ssi$Type) &lt;- c(&quot;Cumulative Infected Cases&quot;, &quot;Infected Cases Per Day&quot;, &quot;Death Case Per Day&quot;)
+ggplot(df_ssi, aes(datemd, Number,fill=Type)) + 
+  geom_bar(stat = &#39;identity&#39;, color=&#39;white&#39;) +
+  facet_wrap(~ Type, nrow = 3, scales = &quot;free_y&quot;) +
+  #scale_x_datetime(&#39;Date&#39;,
+  #                   date_breaks = &#39;1 day&#39;,
+  #                   date_labels = &#39;%b %d&#39;) +
+  mytheme +   theme(axis.text.x = element_text(size = 12, face = &quot;plain&quot;, angle = 45, vjust = 0.5))</code></pre>
+<p><img src="analysis_3March_files/figure-html/unnamed-chunk-10-1.svg" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>path &lt;- &quot;https://api.covid19data.dk:443/ssi_cases_ts&quot;
+
+req_ts &lt;- GET(url=path)
+
+response_ts &lt;- content(req_ts, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+
+
+df_ssi_ts &lt;- fromJSON(response_ts, flatten = TRUE) %&gt;% 
+  data.frame() %&gt;% 
+  mutate(date=parse_datetime(test_date)) %&gt;% 
+  mutate(datemd=as.factor(format(date, &quot;%B %d&quot;))) %&gt;% 
+select(datemd,tests,pct_positive) %&gt;%    
+  pivot_longer(-datemd, names_to = &quot;Type&quot;, values_to = &quot;Number&quot;)
+
+
+df_ssi_ts &lt;- df_ssi_ts[-nrow(df_ssi_ts),]
+ggplot(df_ssi_ts, aes(x= datemd, fill=Type)) + 
+  geom_bar(aes(y=Number),stat = &#39;identity&#39;, color=&#39;white&#39;) +
+  facet_wrap(~ Type, nrow = 2, scales = &quot;free_y&quot;) + 
+  mytheme +
+  theme(axis.text.x = element_text(size = 12, face = &quot;plain&quot;, angle = 45, vjust = 0.5))</code></pre>
+<p><img src="analysis_3March_files/figure-html/unnamed-chunk-11-1.svg" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>path &lt;- &quot;https://api.covid19data.dk:443/ssi_countries&quot;
+req_cou &lt;- GET(url=path)
+response_cou &lt;- content(req_cou, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+
+
+df_cou &lt;- fromJSON(response_cou, flatten = TRUE) %&gt;% 
+  data.frame() %&gt;% 
+  mutate(date=parse_date_time(timestamp,&quot;Ymd HM&quot;, truncated = 4, tz=&quot;CET&quot;)) %&gt;% 
+  mutate(datemd=as.factor(format(date, &quot;%B %d&quot;))) %&gt;% 
+  filter(cases&gt;5)
+
+ggplot(df_cou, aes(datemd, cases, fill=country_of_infection)) +
+  geom_bar(stat = &#39;identity&#39;, position = position_dodge(), binwidth = 5, color=&#39;white&#39;) +
+  mytheme_withlegend +  theme(axis.text.x = element_text(size = 12, face = &quot;plain&quot;, angle = 45, vjust = 0.5))</code></pre>
+<p><img src="analysis_3March_files/figure-html/unnamed-chunk-12-1.svg" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#####################################
+path &lt;- &quot;https://api.covid19data.dk:443/ssi_demo_cases&quot;
+req_demo &lt;- GET(url=path)
+response_demo &lt;- content(req_demo, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+#######################################
+
+#######################################################
+df_dem &lt;- fromJSON(response_demo, flatten = TRUE) %&gt;% 
+  data.frame() %&gt;% 
+  mutate(date=parse_date_time(timestamp,&quot;Ymd HM&quot;, truncated = 4, tz=&quot;CET&quot;)) %&gt;% 
+  mutate(datemd=as.factor(format(date, &quot;%B %d&quot;)))
+######################################################
+
+####################################################################
+ggplot(df_dem, aes(x = agegroup, y = cases, fill = gender)) + 
+  geom_bar(subset = .(Gender == &quot;Female&quot;), stat = &quot;identity&quot;, position = position_dodge(), color=&#39;white&#39;) + 
+  geom_bar(subset = .(Gender == &quot;Male&quot;), stat = &quot;identity&quot;, position = position_dodge(), color=&#39;white&#39;) +
+  facet_wrap(~ datemd, nrow=2) +
+  scale_y_continuous(breaks = seq(-300, 300, 100)) + 
+  coord_flip() +  
+  mytheme_withlegend +
+  theme(axis.text.x = element_text(size = 10, face = &quot;plain&quot;, angle = 45, vjust = 0.5))</code></pre>
+<p><img src="analysis_3March_files/figure-html/unnamed-chunk-13-1.svg" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>
+##############################################################</code></pre>
+</div>

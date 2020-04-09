@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.6.3">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Peyman Kor">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="&mdash; date: &ldquo;2016-04-27T00:00:00Z&rdquo; external_link: &quot;&rdquo; image: caption: Photo by rawpixel on Unsplash focal_point: Smart links: - icon: twitter icon_pack: fab name: Follow url: https://twitter.com/georgecushen slides: example summary: An example of using the in-built project page. tags: - Deep Learning title: Internal Project url_code: &quot;&rdquo; url_pdf: &quot;&rdquo; url_slides: &quot;&rdquo; url_video: &quot;&rdquo; &mdash; &#43;&#43;&#43; title: &ldquo;A&rdquo; &#43;&#43;&#43;
+Question 3.1 Plotting The data set is divided to two sets. From the beginning until the beginning of the 2018 is considered as the Train Data set and from Jan 2018 beyond is considered the Test data-set.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/project/medium_post/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/project/medium_post/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="Personal Website">
+  <meta property="og:url" content="/project/medium_post/">
+  <meta property="og:title" content=" | Personal Website">
+  <meta property="og:description" content="&mdash; date: &ldquo;2016-04-27T00:00:00Z&rdquo; external_link: &quot;&rdquo; image: caption: Photo by rawpixel on Unsplash focal_point: Smart links: - icon: twitter icon_pack: fab name: Follow url: https://twitter.com/georgecushen slides: example summary: An example of using the in-built project page. tags: - Deep Learning title: Internal Project url_code: &quot;&rdquo; url_pdf: &quot;&rdquo; url_slides: &quot;&rdquo; url_video: &quot;&rdquo; &mdash; &#43;&#43;&#43; title: &ldquo;A&rdquo; &#43;&#43;&#43;
+Question 3.1 Plotting The data set is divided to two sets. From the beginning until the beginning of the 2018 is considered as the Train Data set and from Jan 2018 beyond is considered the Test data-set."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+    
+  
+
+  
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/project/medium_post/"
+  },
+  "headline": "",
+  
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Peyman Kor"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Personal Website",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/img/icon-512.png"
+    }
+  },
+  "description": "\u0026mdash; date: \u0026ldquo;2016-04-27T00:00:00Z\u0026rdquo; external_link: \u0026quot;\u0026rdquo; image: caption: Photo by rawpixel on Unsplash focal_point: Smart links: - icon: twitter icon_pack: fab name: Follow url: https://twitter.com/georgecushen slides: example summary: An example of using the in-built project page. tags: - Deep Learning title: Internal Project url_code: \u0026quot;\u0026rdquo; url_pdf: \u0026quot;\u0026rdquo; url_slides: \u0026quot;\u0026rdquo; url_video: \u0026quot;\u0026rdquo; \u0026mdash; +++ title: \u0026ldquo;A\u0026rdquo; +++\nQuestion 3.1 Plotting The data set is divided to two sets. From the beginning until the beginning of the 2018 is considered as the Train Data set and from Jan 2018 beyond is considered the Test data-set."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title> | Personal Website</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Personal Website</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Personal Website</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/courses/"><span>Courses</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/CV.pdf"><span>CV</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article article-project">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1></h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jan 1, 0001
+  </span>
+  
+
+  
+
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h1 id="---">&mdash;</h1>
+<h1 id="date-2016-04-27t000000z">date: &ldquo;2016-04-27T00:00:00Z&rdquo;</h1>
+<h1 id="external_link-">external_link: &quot;&rdquo;</h1>
+<h1 id="image">image:</h1>
+<h1 id="caption-photo-by-rawpixel-on-unsplash">caption: Photo by rawpixel on Unsplash</h1>
+<h1 id="focal_point-smart">focal_point: Smart</h1>
+<h1 id="links">links:</h1>
+<h1 id="--icon-twitter">- icon: twitter</h1>
+<h1 id="icon_pack-fab">icon_pack: fab</h1>
+<h1 id="name-follow">name: Follow</h1>
+<h1 id="url-httpstwittercomgeorgecushen">url: <a href="https://twitter.com/georgecushen">https://twitter.com/georgecushen</a></h1>
+<h1 id="slides-example">slides: example</h1>
+<h1 id="summary-an-example-of-using-the-in-built-project-page">summary: An example of using the in-built project page.</h1>
+<h1 id="tags">tags:</h1>
+<h1 id="--deep-learning">- Deep Learning</h1>
+<h1 id="title-internal-project">title: Internal Project</h1>
+<h1 id="url_code-">url_code: &quot;&rdquo;</h1>
+<h1 id="url_pdf-">url_pdf: &quot;&rdquo;</h1>
+<h1 id="url_slides-">url_slides: &quot;&rdquo;</h1>
+<h1 id="url_video-">url_video: &quot;&rdquo;</h1>
+<h1 id="----1">&mdash;</h1>
+<p>+++
+title: &ldquo;A&rdquo;
++++</p>
+<h2 id="question-31-plotting">Question 3.1 Plotting</h2>
+<p>The data set is divided to two sets. From the beginning until the
+beginning of the 2018 is considered as the <strong>Train</strong> Data set and from
+Jan 2018 beyond is considered the <strong>Test</strong> data-set.</p>
+<pre><code>#library(tidyverse)
+#library(forecast)
+#library(lubridate)
+#library(car)
+#library(scales)
+#install.packages('patchwork')
+#library(patchwork)
+suppressMessages(library(kableExtra))
+
+## Warning: package 'kableExtra' was built under R version 3.6.2
+
+suppressMessages(library(knitr))
+
+## Warning: package 'knitr' was built under R version 3.6.2
+
+suppressMessages(library(DT))
+
+## Warning: package 'DT' was built under R version 3.6.2
+
+suppressMessages(library(tidyverse))
+
+## Warning: package 'tidyverse' was built under R version 3.6.2
+
+## Warning: package 'tidyr' was built under R version 3.6.2
+
+## Warning: package 'purrr' was built under R version 3.6.2
+
+suppressMessages(library(forecast))
+
+## Warning: package 'forecast' was built under R version 3.6.2
+
+suppressMessages(library(car))
+
+## Warning: package 'car' was built under R version 3.6.2
+
+suppressMessages(library(patchwork))
+
+## Warning: package 'patchwork' was built under R version 3.6.2
+
+suppressMessages(library(scales))
+
+## Warning: package 'scales' was built under R version 3.6.2
+
+suppressMessages(library(lubridate))
+</code></pre>
+<h3 id="data-import">Data Import:</h3>
+<p>The data will of mounthly Co2 Concentration in (Part Per Million) over
+the period of the “1960/3-2019/12” measured at Mauna Loa Observatory,
+Hawaii. The link for the this data available at:</p>
+<p>[<a href="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt" class="uri"><a href="ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt">ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt</a></a>]</p>
+<p>Now, to read this data in the R, couples of points must be considered:</p>
+<ul>
+<li>The data has the comments, which is not our interest of analysis.
+Therefore, in import code we show that with *comment.char = ‘#’ *,</li>
+<li>The data has 7 columns yet some of them like the Year and Month
+label have not been written in the data, so while importing we
+assing the folloowing column names:</li>
+<li>The columns wwere seperate using the white space, therfore the sep =
+’’ will be added to the code.</li>
+<li>Year,Month,Time,Co2_con,Interpolated,Trend,Days</li>
+<li>Since we are including the column names, the header = F could be
+included.</li>
+</ul>
+<!-- -->
+<pre><code>data &lt;- read.delim('ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_mm_mlo.txt', comment.char = '#', header = F, sep = '', col.names = c('Year','Month','Time','Co2_Concentration','Interpolated','Trend','Days'))
+</code></pre>
+<h4 id="make-data-tidy">Make Data Tidy:</h4>
+<p>Look on any NA values:</p>
+<pre><code>which(is.na(data))
+
+## integer(0)
+</code></pre>
+<p>Good, we have the complete measured data! However when read the data we
+see some -99.99 values! - be careful, as was mentioned in the comments
+these values are when the measurement were not avilable - so for these
+points (which are 7 out of 741 measueremnets), we use the <em>Interpolated</em>
+colmns:</p>
+<pre><code>data_cc &lt;- data %&gt;% 
+    mutate(
+        Co2_Con = case_when(
+            Co2_Concentration == -99.99 ~ Interpolated,
+            TRUE ~ Co2_Concentration
+        )
+    )
+</code></pre>
+<p>Let’s jhave look on column types:</p>
+<pre><code>sapply(data_cc, class)
+
+##              Year             Month              Time Co2_Concentration 
+##         &quot;integer&quot;         &quot;integer&quot;         &quot;numeric&quot;         &quot;numeric&quot; 
+##      Interpolated             Trend              Days           Co2_Con 
+##         &quot;numeric&quot;         &quot;numeric&quot;         &quot;integer&quot;         &quot;numeric&quot;
+</code></pre>
+<p>We can see that column types are in approriate format, yet we can add
+the new column named <em>Date</em> which give the date of measurement in the
+standard time sery format:</p>
+<h3 id="data-transform">Data Transform</h3>
+<p>Here <em>Lubridate</em> package provides a easy method to convert our <em>Year</em>
+and <em>Month</em> column to date:</p>
+<pre><code>data_cc$Date &lt;- ymd(paste0(data$Year, &quot; &quot;, data$Month, &quot; &quot;, &quot;15&quot;))
+</code></pre>
+<p>Also, we can see in the analysis we want to do, we do not the following
+columsn, so we could select the requered column needed our analys:</p>
+<pre><code>data_cc_sel &lt;- data_cc %&gt;% 
+    select(Year, Month, Date, Co2_Con )
+</code></pre>
+<p>Also, we need to have portion of our data, to test the model we develop
+based on the training data- So, Here, we consider the data for <em>2017</em>,
+<em>2018</em> and <em>2019</em> as the test data, the rest are the training data.</p>
+<pre><code>data_cc_sel_test &lt;- data_cc_sel %&gt;% 
+    filter(Year &gt; 2016)
+data_cc_sel_train &lt;- data_cc_sel %&gt;% 
+    filter(Year &lt;= 2016)
+</code></pre>
+<h3 id="data-visulization">Data Visulization</h3>
+<p>Now, let’s visulize the data first,</p>
+<pre><code>ggplot(data_cc_sel,aes(Date, Co2_Con)) +
+    geom_line(color='blue') +
+    xlab(&quot;Year, Month&quot;) +
+    scale_x_date(date_labels = &quot;%Y-%m&quot;, date_breaks = &quot;5 year&quot;) +
+    theme(axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&quot;CO2 Concentration (ppm)&quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 10, hjust = 1),axis.title.y = element_text(size = 10))
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-9-1.png" alt=""></p>
+<pre><code>p1 &lt;- ggplot(data_cc_sel,aes(Date, Co2_Con)) +
+    geom_line(color='blue') +
+    xlab(&quot;Year, Month&quot;) +
+    scale_x_date(date_labels = &quot;%Y-%m&quot;, date_breaks = &quot;5 year&quot;) +
+    theme(axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&quot;CO2 Concentration (ppm)&quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 10, hjust = 1),axis.title.y = element_text(size = 8))
+
+
+p2 &lt;- ggplot(data_cc_sel_train,aes(Date, Co2_Con)) +
+    geom_line(color='blue') +
+    xlab(&quot;Year, Month&quot;) +
+    scale_x_date(date_labels = &quot;%Y-%m&quot;, date_breaks = &quot;5 year&quot;) +
+    theme(axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&quot;CO2 Concentration (ppm)&quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 10, hjust = 1), axis.title.y = element_text(size = 8))
+
+
+p3 &lt;- ggplot(data_cc_sel_test,aes(Date, Co2_Con)) +
+    geom_line(color='blue') +
+    xlab(&quot;Year, Month&quot;) +
+    scale_x_date(date_labels = &quot;%Y-%m&quot;, date_breaks = &quot;1 year&quot;) +
+    theme(axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&quot;CO2 Concentration (ppm)&quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 10, hjust = 1), axis.title.y = element_text(size = 8))
+
+
+(p2 | p3 ) /
+      p1
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-10-1.png" alt=""></p>
+<h2 id="modeling">Modeling:</h2>
+<p>In time series analysis, first things we need to know about the trends
+are:</p>
+<ul>
+<li>Is the data staionary?</li>
+<li>Answer: Not, we see the clear trend in in the plot, so the co2
+concentration depends on time. (sig of non -stationary)</li>
+<li>Is there any seasonality in data?</li>
+<li>Answer: Yes, we can difintely see the seasonality in the data. Now,
+knowing the the non-statinary and seasonality of the data, it
+suggest to use theseasons differencing to model the data. To answer,</li>
+<li>How is Autocorelation function and Partial Auto corellation?</li>
+</ul>
+<p>Here is the plot of ACF and PACF from the <em>forecast</em> package:</p>
+<pre><code>Co2_train &lt;- ts(data_cc_sel_train$Co2_Con, start = c(1958,3), frequency = 12)
+Co2_train %&gt;% ggtsdisplay()
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-11-1.png" alt=""></p>
+<p>Clearly the the data shows the differencing, now we make the ordinary
+diffrencing of the with the lag of 12:</p>
+<pre><code>#Co2_train %&gt;% diff(1,lag=12) %&gt;% ggtsdisplay()
+Co2_train %&gt;% diff(lag=12) %&gt;% diff() %&gt;% ggtsdisplay()
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-12-1.png" alt=""></p>
+<p>Now, it is better, we subtanitally removed the trend and as well the ACF
+is declining until the lag =12. At this stage, we can go for another
+diffrencing , but it is choice and there is no clear distinction. We
+start the model with the <em>d</em> = <em>D</em> = 1 in the $ARIMA(p,d,q)(P,D,Q)[12]
+using the forecast package.</p>
+<p>Now, we must have some starting parameters for p,q,D,Q . So, let’s look
+on the above ACF and PACF: * In the seasonal lags, there is one
+significant spike in the ACF, suggesting a possible MA(1) term. so, the
+starting point is <em>Q</em> = 1</p>
+<ul>
+<li>In the plots of the non-seasonal differenced data, there are three
+spikes at ACF plot, this may be suggestive of a seasonal MA(3) term,
+<em>q</em> = 3</li>
+</ul>
+<p>Cosequently, we start withe the <em>A<strong>R</strong>I<strong>M</strong>A</em>(0, 1, 3)(3, 1, 1)[12]
+and make variations in the AR and MA terms. Here, while keeping the
+order constant (d,D), we use the AICs values to judge the quelity of
+models. (minimize the AICs)</p>
+<pre><code>(fitnew_1 &lt;- Arima(Co2_train, order=c(0,1,3),seasonal=list(order=c(3,1,1),period=12),
+                 include.drift = T, lambda = &quot;auto&quot;
+              ))
+
+## Warning in Arima(Co2_train, order = c(0, 1, 3), seasonal = list(order = c(3, :
+## No drift term fitted as the order of difference is 2 or more.
+
+## Series: Co2_train 
+## ARIMA(0,1,3)(3,1,1)[12] 
+## Box Cox transformation: lambda= 0.7524011 
+## 
+## Coefficients:
+##           ma1      ma2      ma3    sar1     sar2    sar3     sma1
+##       -0.3652  -0.0294  -0.0747  0.0075  -0.0237  0.0042  -0.8748
+## s.e.   0.0389   0.0415   0.0394  0.0460   0.0443  0.0442   0.0253
+## 
+## sigma^2 estimated as 0.005415:  log likelihood=831.66
+## AIC=-1647.33   AICc=-1647.12   BIC=-1611
+
+checkresiduals(fitnew_1, lag=36)
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-13-1.png" alt=""></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,1,3)(3,1,1)[12]
+## Q* = 29.825, df = 29, p-value = 0.4228
+## 
+## Model df: 7.   Total lags used: 36
+
+aicsvalue &lt;- function(p,q,P,Q) {
+  fit &lt;- Arima(Co2_train, order=c(p,1,q),seasonal=list(order=c(P,1,Q),period=12),
+                  lambda = &quot;auto&quot;
+              )
+  return(fit$aicc)
+}
+
+model_eva &lt;- data.frame(Model_name=c(&quot;ARIMA(0,1,3)(3,1,1)[12]&quot;,&quot;ARIMA(0,1,1)(3,1,1)[12]&quot;,&quot;ARIMA(1,1,0)(1,1,0)[12]&quot;,
+                                     &quot;ARIMA(1,1,2)(1,1,0)[12]&quot;,&quot;ARIMA(1,1,3)(0,1,1)[12]&quot;,&quot;ARIMA(1,1,1)(1,1,0)[12]&quot;,
+                                     &quot;ARIMA(1,1,1)(1,1,0)[12]&quot;,&quot;ARIMA(1,1,0)(1,1,1)[12]&quot;,&quot;ARIMA(1,1,1)(0,1,1)[12]&quot; ), AICc=c(aicsvalue(0,3,3,1),aicsvalue(0,1,3,1),aicsvalue(1,0,1,0),                                                            aicsvalue(1,2,1,0),aicsvalue(1,3,0,1),aicsvalue(1,1,1,0),                                                           aicsvalue(1,1,1,0),aicsvalue(1,0,1,1), aicsvalue(1,1,0,1)))
+</code></pre>
+<p>Based on the above abalysis, the <em>A<strong>R</strong>I<strong>M</strong>A</em>(1, 1, 1)(0, 1, 1)[12]
+will be selected, but we need to check the residual to avoid any over
+and under fitting as well, to see the Ljung-Box test whether the the
+residuals resembles white noise or not.</p>
+<pre><code>(fit_minaicc &lt;- Arima(Co2_train, order=c(1,1,1),seasonal=list(order=c(0,1,1),period=12),
+                  lambda = &quot;auto&quot;
+              ))
+
+## Series: Co2_train 
+## ARIMA(1,1,1)(0,1,1)[12] 
+## Box Cox transformation: lambda= 0.7524011 
+## 
+## Coefficients:
+##          ar1      ma1     sma1
+##       0.2022  -0.5638  -0.8755
+## s.e.  0.0937   0.0792   0.0196
+## 
+## sigma^2 estimated as 0.005407:  log likelihood=830.21
+## AIC=-1652.41   AICc=-1652.36   BIC=-1634.25
+
+checkresiduals(fit_minaicc, lag=36)
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-16-1.png" alt=""></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(1,1,1)(0,1,1)[12]
+## Q* = 34.18, df = 33, p-value = 0.4108
+## 
+## Model df: 3.   Total lags used: 36
+
+fit_minaicc$aicc
+
+## [1] -1652.355
+</code></pre>
+<p>Now, we can see the residualy sufficiently resembles the white noise
+also the p value high and the model pass the test for Ljong-Box test.
+(However it must be mentioned the one of the ACF are just reach the
+boundary in blue line, yet, I do not think it will affect the prediction
+subtantially - sometime it is difffuclt to have model pass al test.)</p>
+<p>However, still this is not the end of model selection. Here, we check
+the perfomance of the model on the <em>Test</em> data. We ssek to find the
+model which minime the RMSE.</p>
+<pre><code>Co2_test &lt;- ts(data_cc_sel_test$Co2_Con, start = c(2017,1), frequency = 12)
+mm &lt;- accuracy(forecast(fit_minaicc,h=35)$mean, Co2_test )
+</code></pre>
+<p>This section compares the <em>RMSE</em> values for the 9 models provided in the
+previous section.</p>
+<pre><code>rmse_eva &lt;- function(p,d,q,P,D,Q) {
+  fit &lt;- Arima(Co2_train, order=c(p,d,q),seasonal=list(order=c(P,D,Q),period=12),
+                  lambda = &quot;auto&quot;
+              )
+  mm &lt;- accuracy(forecast(fit,h=35)$mean, Co2_test)
+  return(mm[2])
+
+}
+
+rmse_eva &lt;- data.frame(Model_name=c(
+&quot;ARIMA(0,1,3)(3,1,1)[12]&quot;,&quot;ARIMA(0,1,1)(3,1,1)[12]&quot;,&quot;ARIMA(1,1,0)(1,1,0)[12]&quot;,
+&quot;ARIMA(1,1,2)(1,1,0)[12]&quot;,&quot;ARIMA(1,1,3)(0,1,1)[12]&quot;,&quot;ARIMA(1,1,1)(1,1,0)[12]&quot;,
+&quot;ARIMA(1,1,1)(1,1,0)[12]&quot;,&quot;ARIMA(1,1,0)(1,1,1)[12]&quot;,&quot;ARIMA(1,1,1)(0,1,1)[12]&quot;
+ ), RMSE=c(                        
+rmse_eva(0,1,3,3,1,1),rmse_eva(0,1,1,3,1,1),rmse_eva(1,1,0,1,1,0),                                                  rmse_eva(1,1,2,1,1,0),rmse_eva(1,1,3,0,1,1),rmse_eva(1,1,1,1,1,0),                                                  rmse_eva(1,1,1,1,1,0),rmse_eva(1,1,0,1,1,1),rmse_eva(1,1,1,0,1,1)))                                                  
+</code></pre>
+<p>The results show that the the model
+<em>A<strong>R</strong>I<strong>M</strong>A</em>(1, 1, 1)(0, 1, 1)[12] has not the minimum <em>R<strong>M</strong>S**E</em>
+values, yet it was very close to the minimum, however it was minimum in
+the <em>A<strong>I</strong>C**c</em> values. Atbthe end, knowing that the model residuals
+foloow the white noise, the <em>R<strong>M</strong>S**E</em> is the final criteria to the
+selection since it performs on the data the model has not seen in the
+training process. Using the forecast package, the figures shows the
+model prediction until the 2050, given the confidence intervals.</p>
+<pre><code>Co2_train %&gt;%
+  Arima(order=c(1,1,1),seasonal=list(order=c(0,1,1),period=12),
+                lambda = &quot;auto&quot;
+              ) %&gt;%
+  forecast(h=400) %&gt;%
+  autoplot() +
+    ylab(&quot;H02 sales (million scripts)&quot;) + xlab(&quot;Year&quot;) +
+  autolayer(Co2_test)
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-20-1.png" alt=""></p>
+<p>Let’s zoom in the model prediction and the test data to see the model
+perfomance visually:</p>
+<pre><code>prediction &lt;- forecast(fit_minaicc,h=37) 
+data_cc_sel_test$prediction &lt;- prediction$mean
+data_test_pre_tidy &lt;- gather(data_cc_sel_test, &quot;type&quot;, &quot;Co2&quot;, -Year,-Month,-Date)
+
+## Warning: attributes are not identical across measure variables;
+## they will be dropped
+
+ggplot(data_test_pre_tidy,aes(Date, Co2,color=type)) +
+    geom_line() +
+    xlab(&quot;Year, Month&quot;) +
+    scale_x_date(date_labels = &quot;%Y-%m&quot;, date_breaks = &quot;1 year&quot;) +
+    theme(axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 12, angle = 45, hjust = 1)) +
+    ylab(&quot;CO2 Concentration (ppm)&quot;) +
+    #scale_x_continuous(breaks = trans_breaks(identity, identity, n = 10))
+    scale_y_continuous() +
+    theme(axis.text.y = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 10, hjust = 1), axis.title.y = element_text(size = 8))
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-21-1.png" alt="">
+Now, given the developed model the question we want to answer is:</p>
+<p>Given the developed model, what is the chance reaching 460 ppm at 2050?
+To answer this question , we first need build the cumulative
+distribution of the Co2 Concentration at the 2050:</p>
+<pre><code>prediction1 &lt;- forecast(fit_minaicc,h=396, level = c(80,90)) 
+p10 &lt;- prediction1$upper[396,2]
+p50 &lt;- prediction1$mean[396]
+sd_calc &lt;- (p10-p50)/1.28
+
+Co2_con_2050 &lt;- rnorm(10^6,p50,sd_calc)
+cdf_co2_con_2050 &lt;- ecdf(Co2_con_2050)
+cdf_co2_con_2050_data &lt;- data.frame(Co2_con_2050)
+ggplot(cdf_co2_con_2050_data, aes(Co2_con_2050)) + stat_ecdf(geom = &quot;step&quot;, color='blue') +
+  geom_vline(xintercept = 460, color='red') +
+  geom_hline(yintercept = cdf_co2_con_2050(460), color='red') +
+  theme(axis.text.x = element_text(face = &quot;bold&quot;, color = &quot;#993333&quot;, 
+                           size = 12, angle = 0, hjust = 1)) +
+  scale_x_continuous(breaks=c(400,425,450, 460,475,500,525, 550), limits = c(425,525)) +
+  scale_y_continuous(breaks=c(seq(0,1,0.1)), limits = c(0,1)) +
+  ylab('Cumulative Distribution') +
+  xlab(&quot;Co2 Concentraion(ppm) at 2050&quot;)
+
+## Warning: Removed 2146 rows containing non-finite values (stat_ecdf).
+</code></pre>
+<p><img src="medium_post_files/figure-markdown_strict/unnamed-chunk-22-1.png" alt=""></p>
+<p>Now, having the cumulative distribution, we could ask this question:</p>
+<ul>
+<li>What is the probability the co2 concentraion (ppm) will stay below
+460 level by 2050?</li>
+</ul>
+<!-- -->
+<pre><code>cdf_co2_con_2050(460)
+
+## [1] 0.088727
+</code></pre>
+<p>As you can see, the answer is around 9%.</p>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/project/medium_post/&amp;text=" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/project/medium_post/&amp;t=" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=&amp;body=/project/medium_post/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/project/medium_post/&amp;title=" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=%20/project/medium_post/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/project/medium_post/&amp;title=" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu9bb149cb2610c5283212a20f0a9cbe40_71953_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Peyman Kor</a></h5>
+      <h6 class="card-subtitle">M.Sc in Mathematical Modeling and Computation</h6>
+      <p class="card-text">My research interests include distributed robotics, mobile computing and programmable matter.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/peyman_kor" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=s0gqDZwAAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/Peymankor/Data-Science_Portfolio" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.instagram.com/korpeyman/?hl=nb" target="_blank" rel="noopener">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+    <div class="project-related-pages content-widget-hr">
+      
+      
+
+      
+      
+      
+
+      
+      
+      
+
+      
+      
+      
+    </div>
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.600a2e440c16093e23e26e90951c4d4b.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy/">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms/">Terms</a>
+    
+  </p>
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
