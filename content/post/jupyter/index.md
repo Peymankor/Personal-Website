@@ -1,24 +1,36 @@
 ---
+title: When your Docker meet Pyspark to warngle 10+Gb Costumer data
+subtitle: Learn how to blog in Academic using Jupyter notebooks
+summary: Learn how to blog in Academic using Jupyter notebooks
 authors:
 - admin
+tags: []
 categories: []
 date: "2019-02-05T00:00:00Z"
-draft: false
+lastMod: "2019-09-05T00:00:00Z"
 featured: false
+draft: false
+
+# Featured image
+# To use, add an image named `featured.jpg/png` to your page's folder. 
 image:
   caption: ""
   focal_point: ""
-lastMod: "2019-09-05T00:00:00Z"
+
+# Projects (optional).
+#   Associate this post with one or more of your projects.
+#   Simply enter your project's folder or file name without extension.
+#   E.g. `projects = ["internal-project"]` references 
+#   `content/project/deep-learning/index.md`.
+#   Otherwise, set `projects = []`.
 projects: []
-subtitle: Learn how to blog in Academic using Jupyter notebooks
-summary: Learn how to blog in Academic using Jupyter notebooks
-tags: []
-title: Display Jupyter Notebooks with Academic
 ---
 
 ```python
 from IPython.core.display import Image
-Image('https://www.python.org/static/community_logos/python-logo-master-v3-TM-flattened.png')
+Image('headerimage.png')
+#![](headerimage.png)
+
 ```
 
 
@@ -28,19 +40,17 @@ Image('https://www.python.org/static/community_logos/python-logo-master-v3-TM-fl
 
 
 
+In this blog I going to show you how you could easily use the Pyspark to run sql codes on the gigabyte scale dataset. 
 
-```python
-print("Welcome to Academic!")
-```
+Now, here the docker will be used to make usage of the pyspark very easy. Since there is a Docker image of pyspark in Jupyter, we will use that docker to use the Pyspark. So, the first thing you must know is your OS has a Docker engine.
 
-    Welcome to Academic!
+The Linux user will not have big problem with this one they can simply follow the instruction to set-up the docker in their OS from the link:
 
+[I'm an inline-style link](https://docs.docker.com/engine/install/ubuntu/)
 
-## Install Python and JupyterLab
+For Windows user you can follow the official link to set-up your docker engine:
 
-[Install Anaconda](https://www.anaconda.com/distribution/#download-section) which includes Python 3 and JupyterLab.
-
-Alternatively, install JupyterLab with `pip3 install jupyterlab`.
+[Docker Manual Windows:](https://docs.docker.com/docker-for-windows/install/)
 
 ## Create or upload a Jupyter notebook
 
