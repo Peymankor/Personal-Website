@@ -1,0 +1,70 @@
+---
+aliases: [lego-musaic]
+title: Make Musaic Format of Your Selfie
+authors: [Peyman]
+summary: Use the Brickr package to use lego toys version of your selfie
+date: '2020-04-09'
+categories:
+  - readr
+  - readxl
+  - data import
+#featuredImage: ""
+#featuredImage: ""
+image:
+  caption: 'Lego format of my own selfie.'
+  focal_point: ''
+---
+
+```{r global_options, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, comment = "#")
+library(fontawesome)
+```
+
+<!-- {{% alert note %}} -->
+<!-- A shorter version of this blog post now appears as an [article vignette](https://readxl.tidyverse.org/articles/articles/multiple-header-rows.html) for the `readxl` package, thank you to [Jenny Bryan](https://jennybryan.org/) for the [invitation](https://twitter.com/JennyBryan/status/1016442080636235776)! -->
+<!-- {{% /alert %}} -->
+
+[Ryan Timpe](http://www.ryantimpe.com/) has done great job with his `brickr` package. Now living in the `Denmark`, the only think I knew about the `Denmark` was the `LEGO` toys :).
+
+![](https://s2.bukalapak.com/img/21626108921/original/9mMiQDT1Ul.jpg)
+
+Now thanks to his `Brickr` package now you can build the Musiac of the your selfie. Fist, I found about this capability from `Ryan` tweet, here:
+
+```{r echo = FALSE}
+blogdown::shortcode("tweet", "1247862505944145921")
+```
+
+Now, I am going to make my own one :)
+
+The first thing you need to do is load the package:
+
+
+```{r}
+# If you have not installed the package
+#install.packages('brickr')
+library(brickr)
+```
+
+Then, next step is to read and upload your photo, I am planning to use this photo:
+
+```{r echo = FALSE} 
+xfun::embed_files("selfie.png", name = "selfie.png")
+```
+
+![](selfie.png)
+Ok, now you have the `selfie.png` at your directory, we need to read it through the `png`:
+
+```{r}
+awseome_selfie <- png::readPNG("selfie.png")
+```
+
+Ok, now having that, the next step you must take is some `pipe` as the below:
+
+```{r, message=FALSE}
+awseome_selfie %>% 
+  image_to_mosaic(img_size = 62) %>% 
+  build_mosaic()
+```
+
+
+

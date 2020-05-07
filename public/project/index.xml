@@ -295,7 +295,7 @@ ggplot(cdf_co2_con_2050_data, aes(Co2_con_2050)) + stat_ecdf(geom = &amp;quot;st
 &lt;li&gt;What is the probability the co2 concentraion (ppm) will stay below 460 level by 2050?&lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cdf_co2_con_2050(460)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 0.088997&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 0.088482&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see, the answer is around 9%.&lt;/p&gt;
 &lt;/div&gt;
 </description>
