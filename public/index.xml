@@ -76,9 +76,9 @@
     
     <item>
       <title>When your Docker Meets Pyspark to Do Sentiment Analysis of 10&#43; GB Customer Review Data-PART 1</title>
-      <link>/post/jupyter/</link>
+      <link>/post/pyspark_docker/</link>
       <pubDate>Tue, 05 May 2020 00:00:00 +0000</pubDate>
-      <guid>/post/jupyter/</guid>
+      <guid>/post/pyspark_docker/</guid>
       <description>&lt;p&gt;In this blog I going to show you how you could easily use the Pyspark to wrangle the gigabyte scale data set. OK, so let&amp;rsquo;s get started:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from IPython.core.display import Image
 Image(&#39;start.jpeg&#39;, width=1000, height=1000)
