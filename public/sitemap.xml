@@ -29,17 +29,42 @@
   
   <url>
     <loc>/authors/admin/</loc>
-    <lastmod>2020-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/authors/</loc>
-    <lastmod>2020-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/covid19/</loc>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/financial-times/</loc>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/ggplot2/</loc>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/ft/</loc>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2020-05-06T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -49,11 +74,6 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2020-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
     <lastmod>2020-04-09T00:00:00+00:00</lastmod>
   </url>
   

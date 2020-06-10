@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>covid19 | Peyman Kor</title>
+    <link>/categories/covid19/</link>
+      <atom:link href="/categories/covid19/index.xml" rel="self" type="application/rss+xml" />
+    <description>covid19</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 09 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>covid19</title>
+      <link>/categories/covid19/</link>
+    </image>
+    
+    <item>
+      <title>How to Reproduce Financial Times Style COVID19 Daily Reporting?</title>
+      <link>/post/ft/</link>
+      <pubDate>Tue, 09 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/post/ft/</guid>
+      <description>
+
+
+&lt;p&gt;Journalist of the &lt;a href=&#34;http://www.ft.com/&#34;&gt;Financial Times&lt;/a&gt;, &lt;a href=&#34;https://www.ft.com/john-burn-murdoch&#34;&gt;John Burn-Murdoch&lt;/a&gt; became quite well known during pandemic time with his I would call it “Enlightening” daily reporting of the evolution of the COVID19 around the world. I felt that it would be a good practice if someone could write blog on how to “produce” these plots because essentially, these plots can be used in many cases for example, you have the dataset of the three dimensional where the third dimension is categorical, and you want the compares the categories.&lt;/p&gt;
+&lt;p&gt;Here is the particular plot that I “try” to reproduce it,&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Small multiples for daily new deaths in 54 countries:&lt;br&gt;• Norway locked down while Sweden didn’t; Norway’s daily death toll rising much more slowly than Sweden’s&lt;br&gt;• Australia faring well so far&lt;br&gt;• In Europe, Austria &amp;amp; Denmark faring well&lt;br&gt;&lt;br&gt;All charts: &lt;a href=&#34;https://t.co/JxVd2cG7KI&#34;&gt;https://t.co/JxVd2cG7KI&lt;/a&gt; &lt;a href=&#34;https://t.co/JulZYu5VJo&#34;&gt;pic.twitter.com/JulZYu5VJo&lt;/a&gt;&lt;/p&gt;&amp;mdash; John Burn-Murdoch (@jburnmurdoch) &lt;a href=&#34;https://twitter.com/jburnmurdoch/status/1250538655707430913?ref_src=twsrc%5Etfw&#34;&gt;April 15, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Allright this is the visualization of the Daily Death tolls (7-day moving average) VS. the days since average daily deaths passed the 3.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;featured.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s go started and see how we could reproduce such a nice visualization!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://miro.medium.com/max/1280/1*8xHK79BmxxbYpjCR20Vtbg.jpeg&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;libraries&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Libraries&lt;/h2&gt;
+&lt;p&gt;Here I am using varieties of the libraries both for data wrangling and as well for visualization, but you could say 90% of the tools are available in the framework of the &lt;a href=&#34;https://www.tidyverse.org/&#34;&gt;Tidyverse&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I wrote the small comment in front of th each package so you may know it better where I may use them:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)                                        # main package
+library(zoo)                                              # was used for moving average
+#devtools::install_github(&amp;quot;yutannihilation/gghighlight&amp;quot;)   # for highlight specif plot at each facet  
+library(gghighlight)                                      # 
+#install.packages(&amp;#39;ggthemes&amp;#39;)                             # if you have not installed!
+library(ggthemes)                                         # may be needed for specif need
+#remotes::install_github(&amp;quot;Financial-Times/ftplottools&amp;quot;)    #
+library(ftplottools)                                      #
+library(coronavirus)                                      # used for corona dataset&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-wrangling&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data Wrangling&lt;/h2&gt;
+&lt;p&gt;Here we load the &lt;code&gt;coronavirus&lt;/code&gt; dataset and we could have brief look on that:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(&amp;quot;coronavirus&amp;quot;)
+coronavirus %&amp;gt;% 
+  as_tibble() %&amp;gt;% 
+  head()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# # A tibble: 6 x 7
+#   Province.State Country.Region   Lat  Long date       cases type     
+#   &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;          &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;date&amp;gt;     &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;    
+# 1 &amp;quot;&amp;quot;             Afghanistan       33    65 2020-01-22     0 confirmed
+# 2 &amp;quot;&amp;quot;             Afghanistan       33    65 2020-01-23     0 confirmed
+# 3 &amp;quot;&amp;quot;             Afghanistan       33    65 2020-01-24     0 confirmed
+# 4 &amp;quot;&amp;quot;             Afghanistan       33    65 2020-01-25     0 confirmed
+# 5 &amp;quot;&amp;quot;             Afghanistan       33    65 2020-01-26     0 confirmed
+# 6 &amp;quot;&amp;quot;             Afghanistan       33    65 2020-01-27     0 confirmed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, the first thing we should do is that, I am going to select and work on the only countries that have been presented in our first plot, so I manually extracted those countries (I hate such a manual process!):&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;selected_cou_FT &amp;lt;- c(&amp;quot;Algeria&amp;quot;, &amp;quot;Argentina&amp;quot;,&amp;quot;Australia&amp;quot;, &amp;quot;Austria&amp;quot;,
+&amp;quot;Bangladesh&amp;quot;,&amp;quot;Belgium&amp;quot;,&amp;quot;Bosnia and Herzegovina&amp;quot;,
+&amp;quot;Brazil&amp;quot;,&amp;quot;Canada&amp;quot;,&amp;quot;Chile&amp;quot;,&amp;quot;China&amp;quot;,&amp;quot;Colombia&amp;quot;,&amp;quot;Czechia&amp;quot;, &amp;quot;Denmark&amp;quot;,
+&amp;quot;Dominican Republic&amp;quot;,&amp;quot;Egypt&amp;quot;,&amp;quot;Finland&amp;quot;,&amp;quot;France&amp;quot;,&amp;quot;Germany&amp;quot;,&amp;quot;Greece&amp;quot;,&amp;quot;Hungary&amp;quot;,
+&amp;quot;India&amp;quot;,&amp;quot;Indonesia&amp;quot;,&amp;quot;Iran&amp;quot;,&amp;quot;Iraq&amp;quot;,&amp;quot;Ireland&amp;quot;,&amp;quot;Israel&amp;quot;,&amp;quot;Italy&amp;quot;,&amp;quot;Japan&amp;quot;,&amp;quot;Malaysia&amp;quot;,
+&amp;quot;Mexico&amp;quot;,&amp;quot;Moldova&amp;quot;,&amp;quot;Morocco&amp;quot;,&amp;quot;Netherlands&amp;quot;,&amp;quot;Norway&amp;quot;,&amp;quot;Pakistan&amp;quot;,&amp;quot;Panama&amp;quot;,&amp;quot;Peru&amp;quot;,
+&amp;quot;Philippines&amp;quot;,&amp;quot;Poland&amp;quot;,&amp;quot;Portugal&amp;quot;,&amp;quot;Russia&amp;quot;,&amp;quot;Romania&amp;quot;,&amp;quot;Korea, South&amp;quot;,&amp;quot;Saudi Arabia&amp;quot;, 
+&amp;quot;Serbia&amp;quot;, &amp;quot;Spain&amp;quot;,&amp;quot;Sweden&amp;quot;, &amp;quot;Switzerland&amp;quot;,&amp;quot;Turkey&amp;quot;,&amp;quot;United Kingdom&amp;quot;, &amp;quot;Ukraine&amp;quot;,&amp;quot;US&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ok, now two important manuplation in the data must be done:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;we need to sum all death case grouped by date and country region, since here we have additional rows that represent death in the sub region, so all of the must be summed up to one country.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Then the moving average of the death cases (7-days) are computed. Here, for initial first three days we have &lt;code&gt;NA&lt;/code&gt; for the moving average since at moving average calculation, we need the three days before and after the middle point.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Then since the plot of the FT says days after &lt;code&gt;daily deaths exceeded the 3 cases&lt;/code&gt; we sliced the data from the day death&amp;gt;3…&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;At the end I am still feel there is some difference in my approach for calculation of the numbers with the John Burn-Murdoch, since although the processed data are similar, yet seems minor difference.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;org_sel_con_movavg &amp;lt;- coronavirus %&amp;gt;% 
+  as_tibble() %&amp;gt;% 
+  filter(Country.Region %in% selected_cou_FT) %&amp;gt;% 
+  filter(date &amp;lt;= as.Date(&amp;#39;2020-04-15&amp;#39;)) %&amp;gt;% 
+  group_by(date, Country.Region) %&amp;gt;%
+  filter(type==&amp;quot;death&amp;quot;) %&amp;gt;% 
+  summarise(total_deth=sum(cases)) %&amp;gt;%
+  group_by(Country.Region) %&amp;gt;% 
+  mutate(week_movavg=rollmean(total_deth, k = 7, fill = &amp;quot;extend&amp;quot;)) %&amp;gt;% 
+  slice(match(TRUE, total_deth&amp;gt;3):n()) %&amp;gt;% 
+  mutate(id = row_number())&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visulization&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Visulization&lt;/h2&gt;
+&lt;p&gt;Allright, now first try the basic visualization using the &lt;code&gt;facet_wrap&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(org_sel_con_movavg, aes(id, week_movavg, color=Country.Region)) +
+  geom_path(color=&amp;#39;blue&amp;#39;, lineend = &amp;quot;round&amp;quot;, size=2) +
+  gghighlight() +
+  facet_wrap(~ Country.Region, nrow = 8, scales = &amp;quot;free_x&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/FT/index_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Well, not bad for first try :) . So here, now I am going to &lt;code&gt;polish&lt;/code&gt; the plot, so will be adding the theme component. The comprehensive guide on what is the affect of each component in theme is on the plot are available in &lt;a href=&#34;https://ggplot2.tidyverse.org/reference/ggtheme.html&#34;&gt;tidyverse website&lt;/a&gt; I wrote a small comment next to the each change, but you can change it depending on your selection:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mytheme &amp;lt;- 
+  theme(panel.grid.major.x =element_line(colour = &amp;quot;wheat4&amp;quot;),
+        panel.grid.major.y =element_line(colour = &amp;quot;wheat4&amp;quot;),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        axis.text = element_text(colour = &amp;quot;black&amp;quot;, size = 24, face = &amp;quot;bold&amp;quot;),
+        axis.title.x = element_text(colour = &amp;quot;black&amp;quot;, size = 28, face = &amp;quot;bold&amp;quot;, vjust = 0.8),
+        axis.title.y = element_blank(),
+        strip.text = element_text(size=24, colour = &amp;quot;blue4&amp;quot;, face = &amp;quot;bold&amp;quot;),
+        plot.title = element_text(color = &amp;quot;black&amp;quot;, size = 40, face = &amp;quot;bold&amp;quot;),
+        plot.subtitle = element_text(color = &amp;quot;black&amp;quot;, size = 30),
+        plot.tag = element_text(color = &amp;quot;black&amp;quot;, face = &amp;quot;italic&amp;quot;, size = 24, lineheight = 0.9),
+        plot.tag.position = c(0.15,0.02),
+        panel.background = element_rect(fill = &amp;quot;seashell2&amp;quot;),
+        plot.background = element_rect(fill = &amp;quot;seashell2&amp;quot;), 
+        panel.border = element_blank(),
+        panel.spacing.y = unit(3, &amp;quot;lines&amp;quot;)
+        ) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ok, now our theme is ready but I should mention that finding the right theme is an &lt;code&gt;iterative&lt;/code&gt; process, I test and plot the visulization, and then come back on tune it. Now in the below, two points are important to be mentioned:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I use the package &lt;code&gt;here&lt;/code&gt; which change my directory the the place this index.Rmd file resides&lt;/li&gt;
+&lt;li&gt;I use the png(…) to save the file and write the outcome of the ggplot on this file.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;here::dr_here()
+png(file=&amp;quot;testold.png&amp;quot;,
+    width=2500, height=2225)
+
+ggplot(org_sel_con_movavg, aes(id, week_movavg, color=Country.Region)) +
+  geom_path(color=&amp;#39;blue&amp;#39;, lineend = &amp;quot;round&amp;quot;, size=2) +
+  gghighlight() +
+  facet_wrap(~ Country.Region, nrow = 8, scales = &amp;quot;free_x&amp;quot;) +
+  scale_y_log10(limits=c(1,1000)) +
+  scale_x_continuous(breaks = c(0,30,60,90)) +
+  mytheme +
+  labs(title=&amp;quot;\nDaily Death tolls&amp;quot;,
+       x =&amp;quot;\n Days since average daily deaths passed 3 \n&amp;quot;, 
+       subtitle = &amp;quot; \n Daily Death with Coronavisrus (7-day Rolling Average), by number of the days since 3 daily deaths first recorded \n&amp;quot;,
+       tag = &amp;quot;Graphics: Peyman Kor | @peyman_kor  \n Source of data: coronavisus package developed by Rami Krispin&amp;quot;)
+dev.off()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# png 
+#   2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;OK now the plot is saved and we can use the simple &lt;code&gt;knitr&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;here::set_here()
+knitr::include_graphics(&amp;quot;testold.png&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;testold.png&#34; width=&#34;1250&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;At the end, I feel this is a good practice to have decent visualization for three dimensional data when your third dimension is categorical. My goal was not to make this plot for COVID19 case, but I find this template is useful for many dataset to compare the quantities in the different categories.&lt;/p&gt;
+&lt;p&gt;If you have come along so far reading this post, thanks :) and you are welcome for feedback!&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
