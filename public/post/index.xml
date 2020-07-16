@@ -179,11 +179,11 @@ Image(&#39;start.jpeg&#39;, width=1000, height=1000)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It is a bit a large file (around 4.5GB), after pulling we need to double check we have image
 using the command line:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/Documents/pyspark_docker$ sudo docker image ls
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/superpack/pyspark_docker$ sudo docker image ls
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Here is the list of all images in our local machine, we can see that
 the &lt;em&gt;jupyter/pyspark-notebook&lt;/em&gt; is among the images that we will utilize it:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/Documents/pyspark_docker$ sudo docker image ls --all
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/superpack/pyspark_docker$ sudo docker image ls --all
 REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
 jupyter/pyspark-notebook   latest              5019fd934efa        2 weeks ago         4.4GB
 jupyter/minimal-notebook   latest              bd466ef7da5f        2 weeks ago         2.52GB
@@ -195,7 +195,7 @@ Image(&#39;success.jpg&#39;, width=1000, height=1000)
 &lt;p&gt;&lt;img src=&#34;./docker_pyspark_project_14_0.jpg&#34; alt=&#34;jpeg&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;port-local-directory-to-the-docker-container&#34;&gt;Port local Directory to the Docker Container&lt;/h2&gt;
 &lt;p&gt;Now you have a image of spark to wrangle the big data.So now since most of the time our big data is not in the same directory the docker is, we need to port the big data set to the container, so the container have direct access to the data, in my case the following code make this mounting (I will break it in the follow):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~$ sudo docker run -p 8888:8888 -v ~/Documents/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~$ sudo docker run -p 8888:8888 -v ~/superpack/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;OK, let&amp;rsquo;s break the above code to fully understand it:&lt;/p&gt;
@@ -203,9 +203,9 @@ Image(&#39;success.jpg&#39;, width=1000, height=1000)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;So this one pass traffic from port 8888 on our machine into port 8888 on the Docker image,
 in this case (jupyter/pyspark-notebook)&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;-v ~/Documents/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;-v ~/superpack/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here, replace &amp;ldquo;~/Documents/pyspark_docker&amp;rdquo; with your local working directory. This directory will be accessed by the container, that’s what option &amp;ldquo;-v&amp;rdquo; is doing at the code. The directory might be empty, you will need to put some files later.
+&lt;p&gt;Here, replace &amp;ldquo;~/superpack/pyspark_docker&amp;rdquo; with your local working directory. This directory will be accessed by the container, that’s what option &amp;ldquo;-v&amp;rdquo; is doing at the code. The directory might be empty, you will need to put some files later.
 So if you done the above steps, now the Jupyter notebook should comes up in your browser on the exact path you will have your data. Now, if you have reached this stage, CONGRATULATION, now you are ready to work with the big data:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from IPython.core.display import Image
 Image(&#39;sweet.jpeg&#39;, width=1000, height=1000)
@@ -388,7 +388,7 @@ only showing top 5 rows
 &lt;p&gt;&lt;a href=&#34;http://www.ryantimpe.com/&#34;&gt;Ryan Timpe&lt;/a&gt; has done great job with his &lt;code&gt;brickr&lt;/code&gt; package. Now living in the &lt;code&gt;Denmark&lt;/code&gt;, the only think I knew about the &lt;code&gt;Denmark&lt;/code&gt; was the &lt;code&gt;LEGO&lt;/code&gt; toys :).&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.bukalapak.com/img/21626108921/original/9mMiQDT1Ul.jpg&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Now thanks to his &lt;code&gt;Brickr&lt;/code&gt; package now you can build the Musiac of the your selfie. Fist, I found about this capability from &lt;code&gt;Ryan&lt;/code&gt; tweet, here:&lt;/p&gt;
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Learn &lt;a href=&#34;https://twitter.com/hashtag/brickr?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#brickr&lt;/a&gt;:&lt;br&gt;Turn yourself (or your dog) into a LEGO mosaic in 3 lines of &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; code. &lt;a href=&#34;https://t.co/aT0pnYFAo5&#34;&gt;pic.twitter.com/aT0pnYFAo5&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ryan Timpe (@ryantimpe) &lt;a href=&#34;https://twitter.com/ryantimpe/status/1247862505944145921?ref_src=twsrc%5Etfw&#34;&gt;April 8, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Learn &lt;a href=&#34;https://twitter.com/hashtag/brickr?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#brickr&lt;/a&gt;:&lt;br&gt;Turn yourself (or your dog) into a LEGO mosaic in 3 lines of &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; code. &lt;a href=&#34;https://t.co/aT0pnYFAo5&#34;&gt;pic.twitter.com/aT0pnYFAo5&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ryan Timpe 🏳️‍🌈🦕 (@ryantimpe) &lt;a href=&#34;https://twitter.com/ryantimpe/status/1247862505944145921?ref_src=twsrc%5Etfw&#34;&gt;April 8, 2020&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 &lt;p&gt;Now, I am going to make my own one :)&lt;/p&gt;

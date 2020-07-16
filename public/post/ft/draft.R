@@ -3,7 +3,7 @@ library(ggrepel)
 
 org_sel_con_movavg2 <- org_sel_con_movavg1
 org_sel_con_movavg2$name <- as.character(org_sel_con_movavg2$Country.Region)
-setwd("/home/peyman/Documents/GithubR/Personal-Website/content/post/FT")
+setwd("/home/peyman/superpack/GithubR/Personal-Website/content/post/FT")
 png(file="saving16.png",
     width=2500, height=2225)
 ggplot(org_sel_con_movavg1, aes(id, week_movavg, color=Country.Region)) +

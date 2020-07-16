@@ -712,11 +712,11 @@ Image('start.jpeg', width=1000, height=1000)
 </code></pre>
 <p>It is a bit a large file (around 4.5GB), after pulling we need to double check we have image
 using the command line:</p>
-<pre><code class="language-bash">(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/Documents/pyspark_docker$ sudo docker image ls
+<pre><code class="language-bash">(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/superpack/pyspark_docker$ sudo docker image ls
 </code></pre>
 <p>Here is the list of all images in our local machine, we can see that
 the <em>jupyter/pyspark-notebook</em> is among the images that we will utilize it:</p>
-<pre><code class="language-bash">(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/Documents/pyspark_docker$ sudo docker image ls --all
+<pre><code class="language-bash">(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~/superpack/pyspark_docker$ sudo docker image ls --all
 REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
 jupyter/pyspark-notebook   latest              5019fd934efa        2 weeks ago         4.4GB
 jupyter/minimal-notebook   latest              bd466ef7da5f        2 weeks ago         2.52GB
@@ -728,7 +728,7 @@ Image('success.jpg', width=1000, height=1000)
 <p><img src="./docker_pyspark_project_14_0.jpg" alt="jpeg"></p>
 <h2 id="port-local-directory-to-the-docker-container">Port local Directory to the Docker Container</h2>
 <p>Now you have a image of spark to wrangle the big data.So now since most of the time our big data is not in the same directory the docker is, we need to port the big data set to the container, so the container have direct access to the data, in my case the following code make this mounting (I will break it in the follow):</p>
-<pre><code class="language-bash">(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~$ sudo docker run -p 8888:8888 -v ~/Documents/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
+<pre><code class="language-bash">(base) peyman@peyman-ZenBook-UX433FN-UX433FN:~$ sudo docker run -p 8888:8888 -v ~/superpack/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
 
 </code></pre>
 <p>OK, let&rsquo;s break the above code to fully understand it:</p>
@@ -736,9 +736,9 @@ Image('success.jpg', width=1000, height=1000)
 </code></pre>
 <p>So this one pass traffic from port 8888 on our machine into port 8888 on the Docker image,
 in this case (jupyter/pyspark-notebook)</p>
-<pre><code class="language-bash">-v ~/Documents/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
+<pre><code class="language-bash">-v ~/superpack/pyspark_docker:/home/jovyan jupyter/pyspark-notebook
 </code></pre>
-<p>Here, replace &ldquo;~/Documents/pyspark_docker&rdquo; with your local working directory. This directory will be accessed by the container, that’s what option &ldquo;-v&rdquo; is doing at the code. The directory might be empty, you will need to put some files later.
+<p>Here, replace &ldquo;~/superpack/pyspark_docker&rdquo; with your local working directory. This directory will be accessed by the container, that’s what option &ldquo;-v&rdquo; is doing at the code. The directory might be empty, you will need to put some files later.
 So if you done the above steps, now the Jupyter notebook should comes up in your browser on the exact path you will have your data. Now, if you have reached this stage, CONGRATULATION, now you are ready to work with the big data:</p>
 <pre><code class="language-python">from IPython.core.display import Image
 Image('sweet.jpeg', width=1000, height=1000)
