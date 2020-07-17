@@ -59,7 +59,7 @@ user_groups:
 
 # Peyman Kor
 
-Hi, I am Peyman Kor working on to connect Data Science with real world challenges to make impact. I do belive the ability get sense out of messy Data is a super power that could add significant value to any analytic team. :fire:
+Hi, I am Peyman Kor working on to connect Data Science with real world challenges to make impact. I do believe the ability get sense out of messy Data is a super power that could add significant value to any analytic team. :fire:
 
 ## My values
 
@@ -75,6 +75,6 @@ My motivations are to stabilize and provide clarity through curiosity. That tend
 
 ## Some past projects:
 
-- 📜 {danparcorpR} - an R package providing more thatn 300,000 speeches of Danish parlmant, in Tidy format - [Link](https://peymankor.github.io/danparcorpR/)
-- 📈 {website} - Master Thesis on Application of Development of XGBOOST model for Making Informed Decison in Engineering Process - [Link](https://bookdown.org/kor_peyman/masterthesisuis/)
+- 📜 {danparcorpR} - an R package providing more than 300,000 speeches of Danish parliament, in Tidy format - [Link](https://peymankor.github.io/danparcorpR/)
+- 📈 {website} - Master Thesis on Application of Development of XGBOOST model for Making Informed Decision in Engineering Process - [Link](https://bookdown.org/kor_peyman/masterthesisuis/)
 - :mag:{project} - Bayesian Uncertainty quantification in Neural Networks - [Link](https://github.com/Peymankor/Data-Science_Portfolio/tree/master/BNN-Project)
